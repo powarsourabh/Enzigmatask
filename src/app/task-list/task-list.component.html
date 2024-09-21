@@ -1,0 +1,56 @@
+
+
+   <div class="task-container">
+    <div class="task-header">
+      <h3>Tasks</h3>
+      <span>All Tasks</span>
+      <span>{{ filteredTasks.length }} records</span>
+      
+      <input type="text" placeholder="Search" [(ngModel)]="searchText" (input)="filterTasks()" class="form-control" />
+  
+      <button (click)="toggleForm()">New Task</button>
+      <button (click)="loadTasks()">Refresh</button>
+    </div>
+  
+    <table class="task-table">
+      <thead>
+        <tr>
+          <th><input type="checkbox" /></th>
+          <th>Assigned To</th>
+          <th>Status</th>
+          <th>Due Date</th>
+          <th>Priority</th>
+          <th>Comments</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let task of filteredTasks | slice: (currentPage-1)*tasksPerPage : currentPage*tasksPerPage">
+          <td><input type="checkbox" /></td>
+          <td style="color: rgb(0, 174, 255);">{{ task.assignedTo }}</td>
+          <td>{{ task.status }}</td>
+          <td>{{ task.dueDate | date }}</td>
+          <td>{{ task.priority }}</td>
+          <td>{{ task.comments }}</td>
+          <td>
+            <div class="dropdown">
+              <button class="dropdown-toggle">...</button>
+              <div class="dropdown-menu">
+                <button (click)="editTask(task)">Edit</button>
+                <button (click)="deleteTask(task.id)">Delete</button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div class="pagination">
+      <button (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+    </div>
+  
+    <app-task-form *ngIf="showForm" [task]="selectedTask" (taskUpdated)="onTaskUpdated()"></app-task-form>
+  </div>
+  

@@ -1,0 +1,69 @@
+
+
+   <div class="task-form">
+    <h3>{{ task ? 'Edit Task' : 'Add New Task' }}</h3>
+  
+    <div *ngIf="message" class="alert alert-{{ alertType }} alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  
+    <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+      
+    
+
+      <div class="form-group">
+        <label for="assignedTo">Assigned To:</label>
+        <select class="form-control" formControlName="assignedTo" id="assignedTo">
+          <option value="" disabled>Select a user</option>
+          <option *ngFor="let user of users" [value]="user.name">{{ user.name }}</option>
+        </select>
+        <div *ngIf="submitted && formControls['assignedTo'].invalid" class="text-danger">
+          Assigned To is required.
+        </div>
+      </div>
+  
+  
+      <div class="form-group">
+        <label for="status">Status:</label>
+        <select class="form-control" formControlName="status" id="status">
+          <option value="Not Started">Not Started</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+        </select>
+        <div *ngIf="submitted && formControls['status'].invalid" class="text-danger">
+          Status is required.
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="dueDate">Due Date:</label>
+        <input type="date" class="form-control" formControlName="dueDate" id="dueDate" />
+        <div *ngIf="submitted && formControls['dueDate'].invalid" class="text-danger">
+          Due Date is required.
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="priority">Priority:</label>
+        <select class="form-control" formControlName="priority" id="priority">
+          <option value="Low">Low</option>
+          <option value="Normal">Normal</option>
+          <option value="High">High</option>
+        </select>
+        <div *ngIf="submitted && formControls['priority'].invalid" class="text-danger">
+          Priority is required.
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="comments">Comments:</label>
+        <textarea class="form-control" formControlName="comments" id="comments" placeholder="Enter comments"></textarea>
+      </div>
+  
+      <button type="submit" class="btn btn-primary">{{ task ? 'Update Task' : 'Add Task' }}</button>
+    </form>
+  </div>
+  
